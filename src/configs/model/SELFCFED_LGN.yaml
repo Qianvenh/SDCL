@@ -5,3 +5,4 @@ reg_weight: [1e-01, 1e-02, 1e-03, 1e-04, 1e-05, 0.0]
 use_neg_sampling: False
 hyper_parameters: ["n_layers", "dropout", "reg_weight"]
 break_point: 72 # for both baby and clothing
+

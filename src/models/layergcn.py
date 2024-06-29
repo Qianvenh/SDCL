@@ -247,9 +247,8 @@ class LayerGCN(GeneralRecommender):
         # loss for svd_augment
         user_all_aug_emb, item_all_aug_emb = self.forward(FlowType.augment)
         mf_loss = self.bpr_loss(user_all_aug_emb, item_all_aug_emb, user, pos_item, neg_item)
-        reg_loss = self.emb_loss(self.user_embeddings, self.item_embeddings, user, pos_item, neg_item)
-        reg_loss_pro = self.emb_loss(self.user_augment, self.item_augment, user, pos_item, neg_item)
-        loss1 = mf_loss + self.reg_weight * (reg_loss + reg_loss_pro)
+        reg_loss = self.emb_loss((self.user_embeddings + self.user_augment) / 2, (self.item_embeddings + self.item_augment) / 2, user, pos_item, neg_item)
+        loss1 = mf_loss + self.reg_weight * reg_loss
 
         # # get flaw items
         flaw_item = self.get_flaw_item(
@@ -261,9 +260,8 @@ class LayerGCN(GeneralRecommender):
         # # loss for svd_flaw
         user_all_flaw_emb, item_all_flaw_emb = self.forward(FlowType.flaw)
         mf_flaw_loss = self.bpr_loss(user_all_flaw_emb, item_all_flaw_emb, user, flaw_item, neg_item)
-        reg_flaw_loss = self.emb_loss(self.user_embeddings, self.item_embeddings, user, flaw_item, neg_item)
-        reg_flaw_loss_pro = self.emb_loss(self.user_flaw, self.item_flaw, user, flaw_item, neg_item)
-        loss2 = mf_flaw_loss + self.reg_weight * (reg_flaw_loss + reg_flaw_loss_pro)
+        reg_flaw_loss = self.emb_loss((self.user_embeddings + self.user_flaw) / 2, (self.item_embeddings + self.item_flaw) / 2, user, flaw_item, neg_item)
+        loss2 = mf_flaw_loss + self.reg_weight * reg_flaw_loss
 
         
         return loss1 + loss2
