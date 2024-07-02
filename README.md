@@ -1,10 +1,10 @@
 # Analysis of Demands in Bias by Model Itself: SVD-based Dual Contradictory Learning Framework
 
-Version of Python: 3.7.11
+Version of Python: `3.7.11`
 
 Versions of dependent package are in `requirement.txt`
 
-Setting break point: ./src/configs/model/*.yaml
+Setting break point: `./src/configs/model/*.yaml`
 
 Run the code: 
 
